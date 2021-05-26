@@ -126,6 +126,7 @@ public class MDIKiljoy extends javax.swing.JFrame {
         jifParticipantes = new javax.swing.JInternalFrame();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblParticipantes = new javax.swing.JTable();
+        jifAgregarAspirante = new javax.swing.JInternalFrame();
         menuBar = new javax.swing.JMenuBar();
         mnuArchivos = new javax.swing.JMenu();
         mnuAspirantes = new javax.swing.JMenuItem();
@@ -276,6 +277,28 @@ public class MDIKiljoy extends javax.swing.JFrame {
         desktopPane.add(jifParticipantes);
         jifParticipantes.setBounds(10, 0, 400, 270);
 
+        jifAgregarAspirante.setClosable(true);
+        jifAgregarAspirante.setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
+        jifAgregarAspirante.setIconifiable(true);
+        jifAgregarAspirante.setMaximizable(true);
+        jifAgregarAspirante.setResizable(true);
+        jifAgregarAspirante.setTitle("Agregar Aspirantes");
+        jifAgregarAspirante.setVisible(false);
+
+        javax.swing.GroupLayout jifAgregarAspiranteLayout = new javax.swing.GroupLayout(jifAgregarAspirante.getContentPane());
+        jifAgregarAspirante.getContentPane().setLayout(jifAgregarAspiranteLayout);
+        jifAgregarAspiranteLayout.setHorizontalGroup(
+            jifAgregarAspiranteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jifAgregarAspiranteLayout.setVerticalGroup(
+            jifAgregarAspiranteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
+        desktopPane.add(jifAgregarAspirante);
+        jifAgregarAspirante.setBounds(80, 0, 310, 270);
+
         mnuArchivos.setMnemonic('f');
         mnuArchivos.setText("Inicio");
 
@@ -423,6 +446,7 @@ public class MDIKiljoy extends javax.swing.JFrame {
     private javax.swing.JDesktopPane desktopPane;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JInternalFrame jifAgregarAspirante;
     private javax.swing.JInternalFrame jifAspirantes;
     private javax.swing.JInternalFrame jifLogin;
     private javax.swing.JInternalFrame jifParticipantes;
