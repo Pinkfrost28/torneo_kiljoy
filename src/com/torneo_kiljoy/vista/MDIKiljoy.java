@@ -756,7 +756,7 @@ public class MDIKiljoy extends javax.swing.JFrame {
             dataset.setValue(controlLista2.getParticipantes()[2].getPuntuacion(), "Puntaje", controlLista2.getParticipantes()[2].getNombre());
             dataset.setValue(controlLista2.getParticipantes()[3].getPuntuacion(), "Puntaje", controlLista2.getParticipantes()[3].getNombre());
             dataset.setValue(controlLista2.getParticipantes()[4].getPuntuacion(), "Puntaje", controlLista2.getParticipantes()[4].getNombre());
-            JFreeChart diagramaPuntaje = ChartFactory.createBarChart("Gráfica", "Nombre jugadores", "Puntajes", dataset, PlotOrientation.VERTICAL, false, true, false);
+            JFreeChart diagramaPuntaje = ChartFactory.createBarChart("Gráfica de participantes", "Nombre jugadores", "Puntajes", dataset, PlotOrientation.VERTICAL, false, true, false);
             CategoryPlot p = diagramaPuntaje.getCategoryPlot();
             p.setRangeGridlinePaint(Color.BLACK);
             ChartFrame pantalla = new ChartFrame("Diagrama", diagramaPuntaje);
