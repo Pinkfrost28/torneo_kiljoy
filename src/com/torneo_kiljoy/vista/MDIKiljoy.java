@@ -175,6 +175,8 @@ public class MDIKiljoy extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 102, 102));
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        setForeground(java.awt.Color.pink);
         setMaximumSize(new java.awt.Dimension(1980, 1080));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -554,6 +556,8 @@ public class MDIKiljoy extends javax.swing.JFrame {
         jLabel3.setBounds(210, 420, 440, 220);
 
         getContentPane().add(desktopPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1980, 1080));
+
+        menuBar.setBackground(new java.awt.Color(255, 102, 102));
 
         mnuArchivos.setMnemonic('f');
         mnuArchivos.setText("Inicio");
