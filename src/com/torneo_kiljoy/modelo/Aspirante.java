@@ -75,7 +75,7 @@ public class Aspirante implements Serializable {
         segundo = nickname.charAt(1);
         
         this.codigo = Character.toString(primer) + "Kiljoy" + Character.toString(segundo) + Math.floor(Math.random()*20);
-            System.out.println(this.codigo);
+            
         return this.codigo;
 }
 }    

@@ -8,16 +8,24 @@ package com.torneo_kiljoy.vista;
 import com.torneo_kiljoy.controlador.ControladorLista1;
 import com.torneo_kiljoy.controlador.ControladorLista2;
 import com.torneo_kiljoy.controlador.ControladorUsuario;
+import com.torneo_kiljoy.excepciones.JugadorExcepcion;
 import com.torneo_kiljoy.excepciones.UsuarioExcepcion;
 import com.torneo_kiljoy.modelo.Aspirante;
 import com.torneo_kiljoy.modelo.Participante;
 import com.torneo_kiljoy.modelo.Usuario;
+import java.awt.Color;
 import java.beans.PropertyVetoException;
 import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartFrame;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.DefaultCategoryDataset;
 
 /**
  *
@@ -81,6 +89,7 @@ public class MDIKiljoy extends javax.swing.JFrame {
         mnuAgregarAspirantes.setEnabled(false);
         mnuParticipantes.setEnabled(false);
         mnuAgregarParticipantes.setEnabled(false);
+        mnuGrafica.setEnabled(false);
 
         if (usuarioAutenticado != null) {
             switch (usuarioAutenticado.getRol().getCodigo()) {
@@ -89,18 +98,21 @@ public class MDIKiljoy extends javax.swing.JFrame {
                     mnuAgregarAspirantes.setEnabled(true);
                     mnuParticipantes.setEnabled(true);
                     mnuAgregarParticipantes.setEnabled(true);
+                    mnuGrafica.setEnabled(true);
                     break;
                 case 2:
                     mnuAspirantes.setEnabled(true);
                     mnuAgregarAspirantes.setEnabled(true);
                     mnuParticipantes.setEnabled(true);
                     mnuAgregarParticipantes.setEnabled(false);
+                    mnuGrafica.setEnabled(true);
                     break;
                 case 3:
                     mnuAspirantes.setEnabled(true);
                     mnuAgregarAspirantes.setEnabled(false);
                     mnuParticipantes.setEnabled(true);
                     mnuAgregarParticipantes.setEnabled(false);
+                    mnuGrafica.setEnabled(true);
 
             }
         }
@@ -155,15 +167,15 @@ public class MDIKiljoy extends javax.swing.JFrame {
         menuBar = new javax.swing.JMenuBar();
         mnuArchivos = new javax.swing.JMenu();
         mnuAspirantes = new javax.swing.JMenuItem();
+        mnuParticipantes = new javax.swing.JMenuItem();
         mnuAgregarAspirantes = new javax.swing.JMenuItem();
         mnuAgregarParticipantes = new javax.swing.JMenuItem();
-        mnuParticipantes = new javax.swing.JMenuItem();
+        mnuGrafica = new javax.swing.JMenuItem();
         mnuSalir = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 102, 102));
         setMaximumSize(new java.awt.Dimension(1980, 1080));
-        setPreferredSize(new java.awt.Dimension(1980, 1080));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         desktopPane.setBackground(new java.awt.Color(255, 102, 102));
@@ -195,6 +207,12 @@ public class MDIKiljoy extends javax.swing.JFrame {
             }
         });
         jScrollPane3.setViewportView(tblAspirantes);
+        if (tblAspirantes.getColumnModel().getColumnCount() > 0) {
+            tblAspirantes.getColumnModel().getColumn(1).setResizable(false);
+            tblAspirantes.getColumnModel().getColumn(2).setResizable(false);
+            tblAspirantes.getColumnModel().getColumn(3).setResizable(false);
+            tblAspirantes.getColumnModel().getColumn(4).setResizable(false);
+        }
 
         javax.swing.GroupLayout jifAspirantesLayout = new javax.swing.GroupLayout(jifAspirantes.getContentPane());
         jifAspirantes.getContentPane().setLayout(jifAspirantesLayout);
@@ -280,7 +298,7 @@ public class MDIKiljoy extends javax.swing.JFrame {
                 .addComponent(txtContrasenia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnIngresar)
-                .addContainerGap(48, Short.MAX_VALUE))
+                .addContainerGap(44, Short.MAX_VALUE))
         );
 
         desktopPane.add(jifLogin);
@@ -306,14 +324,28 @@ public class MDIKiljoy extends javax.swing.JFrame {
             Class[] types = new Class [] {
                 java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.Byte.class, java.lang.Long.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, true, false, false, true
+            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
         tblParticipantes.getTableHeader().setResizingAllowed(false);
         tblParticipantes.getTableHeader().setReorderingAllowed(false);
         jScrollPane2.setViewportView(tblParticipantes);
+        if (tblParticipantes.getColumnModel().getColumnCount() > 0) {
+            tblParticipantes.getColumnModel().getColumn(0).setResizable(false);
+            tblParticipantes.getColumnModel().getColumn(1).setResizable(false);
+            tblParticipantes.getColumnModel().getColumn(2).setResizable(false);
+            tblParticipantes.getColumnModel().getColumn(3).setResizable(false);
+            tblParticipantes.getColumnModel().getColumn(4).setResizable(false);
+        }
 
         javax.swing.GroupLayout jifParticipantesLayout = new javax.swing.GroupLayout(jifParticipantes.getContentPane());
         jifParticipantes.getContentPane().setLayout(jifParticipantesLayout);
@@ -327,7 +359,7 @@ public class MDIKiljoy extends javax.swing.JFrame {
         );
 
         desktopPane.add(jifParticipantes);
-        jifParticipantes.setBounds(10, 0, 400, 270);
+        jifParticipantes.setBounds(10, 0, 600, 300);
 
         jifAgregarAspirante.setClosable(true);
         jifAgregarAspirante.setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
@@ -424,7 +456,7 @@ public class MDIKiljoy extends javax.swing.JFrame {
                 .addComponent(spnEdadAsp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnRegistrarAsp)
-                .addContainerGap(33, Short.MAX_VALUE))
+                .addContainerGap(76, Short.MAX_VALUE))
         );
 
         desktopPane.add(jifAgregarAspirante);
@@ -500,14 +532,14 @@ public class MDIKiljoy extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblPuntuacionPart)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtPuntuacionPart, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txtPuntuacionPart, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblEdadPart)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(spnEdadPart, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(spnEdadPart, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnAgregarParticipante)
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addContainerGap(68, Short.MAX_VALUE))
         );
 
         desktopPane.add(jifAgregarParticipante);
@@ -535,6 +567,15 @@ public class MDIKiljoy extends javax.swing.JFrame {
         });
         mnuArchivos.add(mnuAspirantes);
 
+        mnuParticipantes.setMnemonic('a');
+        mnuParticipantes.setText("Participantes");
+        mnuParticipantes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuParticipantesActionPerformed(evt);
+            }
+        });
+        mnuArchivos.add(mnuParticipantes);
+
         mnuAgregarAspirantes.setMnemonic('s');
         mnuAgregarAspirantes.setText("Agregar Aspirantes");
         mnuAgregarAspirantes.addActionListener(new java.awt.event.ActionListener() {
@@ -552,14 +593,13 @@ public class MDIKiljoy extends javax.swing.JFrame {
         });
         mnuArchivos.add(mnuAgregarParticipantes);
 
-        mnuParticipantes.setMnemonic('a');
-        mnuParticipantes.setText("Participantes");
-        mnuParticipantes.addActionListener(new java.awt.event.ActionListener() {
+        mnuGrafica.setText("Grafica de Participantes");
+        mnuGrafica.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnuParticipantesActionPerformed(evt);
+                mnuGraficaActionPerformed(evt);
             }
         });
-        mnuArchivos.add(mnuParticipantes);
+        mnuArchivos.add(mnuGrafica);
 
         mnuSalir.setMnemonic('x');
         mnuSalir.setText("Salir");
@@ -578,7 +618,7 @@ public class MDIKiljoy extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void mnuSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuSalirActionPerformed
-        JOptionPane.showMessageDialog(rootPane, "ADios lok");
+        JOptionPane.showMessageDialog(rootPane, "Hasta pronto");
         System.exit(0);
     }//GEN-LAST:event_mnuSalirActionPerformed
 
@@ -654,26 +694,45 @@ public class MDIKiljoy extends javax.swing.JFrame {
 
     private void btnRegistrarAspActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarAspActionPerformed
         // TODO add your handling code here:
-        Aspirante aspiranteAdicionar;
 
-        aspiranteAdicionar = 
-                new Aspirante(txtNombreAsp.getText(),txtNicknameAsp.getText(), Byte.parseByte(spnEdadAsp.getValue().toString()), Long.parseLong(txtPuntuacionAsp.getText()));
-        
-        String mensaje = controlLista1.adicionarAspirante(aspiranteAdicionar);
-        llenarAspirantes();
-        JOptionPane.showMessageDialog(rootPane, mensaje);
+        try {
+            Aspirante aspiranteAdicionar;
+
+            controlLista1.verificarAspirante(txtNombreAsp.getText(), txtNicknameAsp.getText(), spnEdadAsp.getValue().toString(), txtPuntuacionAsp.getText());
+
+            aspiranteAdicionar
+                    = new Aspirante(txtNombreAsp.getText(), txtNicknameAsp.getText(), Byte.parseByte(spnEdadAsp.getValue().toString()), Long.parseLong(txtPuntuacionAsp.getText()));
+
+            String mensaje = controlLista1.adicionarAspirante(aspiranteAdicionar);
+            llenarAspirantes();
+            JOptionPane.showMessageDialog(rootPane, mensaje);
+            controlLista1.completar(aspiranteAdicionar);
+        } catch (JugadorExcepcion ex) {
+            JOptionPane.showMessageDialog(rootPane, ex.getMessage(), "Eror", 0);
+        }
+
     }//GEN-LAST:event_btnRegistrarAspActionPerformed
 
     private void btnAgregarParticipanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarParticipanteActionPerformed
         // TODO add your handling code here:
-        Participante participanteAdicionar;
-        participanteAdicionar = 
-                new Participante(txtNombrePart.getText(),txtNicknamePart.getText(), Byte.parseByte(spnEdadPart.getValue().toString()), Long.parseLong(txtPuntuacionPart.getText()));
-        
-  
-        String mensaje = controlLista2.adicionarParticipante(participanteAdicionar);
-        llenarParticipantes();
-        JOptionPane.showMessageDialog(rootPane, mensaje);
+        try {
+            Participante participanteAdicionar;
+
+            controlLista2.verificarParticipante(txtNombrePart.getText(), txtNicknamePart.getText(), spnEdadPart.getValue().toString(), txtPuntuacionPart.getText());
+
+            participanteAdicionar
+                    = new Participante(txtNombrePart.getText(), txtNicknamePart.getText(), Byte.parseByte(spnEdadPart.getValue().toString()), Long.parseLong(txtPuntuacionPart.getText()));
+
+            String mensaje = controlLista2.adicionarParticipante(participanteAdicionar);
+            llenarParticipantes();
+            JOptionPane.showMessageDialog(rootPane, mensaje);
+            controlLista2.completar(participanteAdicionar);
+            
+        } catch (JugadorExcepcion ex) {
+            JOptionPane.showMessageDialog(rootPane, ex.getMessage(), "Eror", 0);
+
+        }
+
     }//GEN-LAST:event_btnAgregarParticipanteActionPerformed
 
     private void txtNicknameAspActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNicknameAspActionPerformed
@@ -683,6 +742,27 @@ public class MDIKiljoy extends javax.swing.JFrame {
     private void txtPuntuacionAspActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPuntuacionAspActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtPuntuacionAspActionPerformed
+
+    private void mnuGraficaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuGraficaActionPerformed
+
+        if (controlLista2.getParticipantes()[4] != null) {
+            DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+            dataset.setValue(controlLista2.getParticipantes()[0].getPuntuacion(), "Puntaje", controlLista2.getParticipantes()[0].getNombre());
+            dataset.setValue(controlLista2.getParticipantes()[1].getPuntuacion(), "Puntaje", controlLista2.getParticipantes()[1].getNombre());
+            dataset.setValue(controlLista2.getParticipantes()[2].getPuntuacion(), "Puntaje", controlLista2.getParticipantes()[2].getNombre());
+            dataset.setValue(controlLista2.getParticipantes()[3].getPuntuacion(), "Puntaje", controlLista2.getParticipantes()[3].getNombre());
+            dataset.setValue(controlLista2.getParticipantes()[4].getPuntuacion(), "Puntaje", controlLista2.getParticipantes()[4].getNombre());
+            JFreeChart diagramaPuntaje = ChartFactory.createBarChart("Gráfica", "Nombre jugadores", "Puntajes", dataset, PlotOrientation.VERTICAL, false, true, false);
+            CategoryPlot p = diagramaPuntaje.getCategoryPlot();
+            p.setRangeGridlinePaint(Color.BLACK);
+            ChartFrame pantalla = new ChartFrame("Diagrama", diagramaPuntaje);
+            pantalla.setVisible(true);
+            pantalla.setSize(500, 500);
+        } else {
+            JOptionPane.showMessageDialog(null, "No se ha agregado todos los participantes");
+        }
+
+    }//GEN-LAST:event_mnuGraficaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -750,6 +830,7 @@ public class MDIKiljoy extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnuAgregarParticipantes;
     private javax.swing.JMenu mnuArchivos;
     private javax.swing.JMenuItem mnuAspirantes;
+    private javax.swing.JMenuItem mnuGrafica;
     private javax.swing.JMenuItem mnuParticipantes;
     private javax.swing.JMenuItem mnuSalir;
     private javax.swing.JSpinner spnEdadAsp;

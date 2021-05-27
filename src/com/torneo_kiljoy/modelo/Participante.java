@@ -5,14 +5,15 @@
  */
 package com.torneo_kiljoy.modelo;
 
+import com.torneo_kiljoy.excepciones.JugadorExcepcion;
 import java.io.Serializable;
 
 /**
  *
  * @author LAURA MELISSA
  */
-public class Participante extends Aspirante implements Serializable{
-    
+public class Participante extends Aspirante implements Serializable {
+
     private String codigo;
 
     public Participante(String nombre, String nickname, byte edad, long puntuacion) {
