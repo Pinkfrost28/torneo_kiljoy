@@ -28,6 +28,7 @@ public class ControladorLista1 {
     private void inicializarAspirante()
     {
         aspirantes[0] = new Aspirante("Laura Melissa", "Pinkfrost", (byte)19, (long)45621574);
+        contAspirantes++;
     }
     
     public String adicionarAspirante(Aspirante asp)

@@ -28,9 +28,10 @@ public class ControladorLista2 {
     
     private void inicializarParticipante(){
         participantes[0] = new Participante("Laura Melissa", "Pinkfrost", (byte)19, (long)45621574);
+        contParicipantes++;
     }
 
-    public String adicionarAspirante(Participante part) {
+    public String adicionarParticipante(Participante part) {
         if (contParicipantes < NUMERO_PARTICIPANTES) {
             participantes[contParicipantes] = part;
             contParicipantes++;

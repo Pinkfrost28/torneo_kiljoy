@@ -23,6 +23,7 @@ public class Aspirante implements Serializable {
         this.nickname = nickname;
         this.edad = edad;
         this.puntuacion = puntuacion;
+        codigo=obtenerCodigo(nickname);
     }
 
     public String getNombre() {

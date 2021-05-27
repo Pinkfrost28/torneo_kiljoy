@@ -12,6 +12,7 @@ import com.torneo_kiljoy.excepciones.UsuarioExcepcion;
 import com.torneo_kiljoy.modelo.Aspirante;
 import com.torneo_kiljoy.modelo.Participante;
 import com.torneo_kiljoy.modelo.Usuario;
+import java.beans.PropertyVetoException;
 import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -42,7 +43,7 @@ public class MDIKiljoy extends javax.swing.JFrame {
         txtContrasenia.setText("123456");
         llenarAspirantes();
         llenarParticipantes();
-        
+
     }
 
     private void llenarAspirantes() {
@@ -52,7 +53,7 @@ public class MDIKiljoy extends javax.swing.JFrame {
 //        model.addRow(fila);
         for (Aspirante asp : controlLista1.getAspirantes()) {
             if (asp != null) {
-                Object[] fila = {asp.getNombre(), asp.obtenerCodigo(asp.getNickname()), asp.getNickname(), asp.getEdad(), asp.getPuntuacion()};
+                Object[] fila = {asp.getNombre(), asp.getCodigo(), asp.getNickname(), asp.getEdad(), asp.getPuntuacion()};
 
                 model.addRow(fila);
             }
@@ -60,17 +61,19 @@ public class MDIKiljoy extends javax.swing.JFrame {
         tblAspirantes.repaint();
 
     }
-    private void llenarParticipantes(){
+
+    private void llenarParticipantes() {
         DefaultTableModel model = (DefaultTableModel) tblParticipantes.getModel();
         model.getDataVector().removeAllElements();
-        
-        for(Participante part : controlLista2.getParticipantes()){
-            if(part != null){
-                Object[] fila = {part.getNombre(),part.obtenerCodigo(part.getNickname()),part.getNickname(),part.getEdad(),part.getPuntuacion()};
-                
+
+        for (Participante part : controlLista2.getParticipantes()) {
+            if (part != null) {
+                Object[] fila = {part.getNombre(), part.getCodigo(), part.getNickname(), part.getEdad(), part.getPuntuacion()};
+
                 model.addRow(fila);
             }
         }
+        tblParticipantes.repaint();
     }
 
     public void controlarEstadoMenus() {
@@ -115,7 +118,7 @@ public class MDIKiljoy extends javax.swing.JFrame {
 
         desktopPane = new javax.swing.JDesktopPane();
         jifAspirantes = new javax.swing.JInternalFrame();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        jScrollPane3 = new javax.swing.JScrollPane();
         tblAspirantes = new javax.swing.JTable();
         jifLogin = new javax.swing.JInternalFrame();
         lblUsuario = new javax.swing.JLabel();
@@ -123,10 +126,32 @@ public class MDIKiljoy extends javax.swing.JFrame {
         txtCorreo = new javax.swing.JTextField();
         txtContrasenia = new javax.swing.JPasswordField();
         btnIngresar = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
         jifParticipantes = new javax.swing.JInternalFrame();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblParticipantes = new javax.swing.JTable();
         jifAgregarAspirante = new javax.swing.JInternalFrame();
+        txtNombreAsp = new javax.swing.JTextField();
+        btnRegistrarAsp = new javax.swing.JButton();
+        lblNombreAsp = new javax.swing.JLabel();
+        lblNicknameAsp = new javax.swing.JLabel();
+        txtNicknameAsp = new javax.swing.JTextField();
+        txtPuntuacionAsp = new javax.swing.JTextField();
+        lblPuntuacionAsp = new javax.swing.JLabel();
+        spnEdadAsp = new javax.swing.JSpinner();
+        lblEdadAsp = new javax.swing.JLabel();
+        jifAgregarParticipante = new javax.swing.JInternalFrame();
+        btnAgregarParticipante = new javax.swing.JButton();
+        lblNombrePart = new javax.swing.JLabel();
+        txtNombrePart = new javax.swing.JTextField();
+        lblNicknamePart = new javax.swing.JLabel();
+        txtPuntuacionPart = new javax.swing.JTextField();
+        lblEdadPart = new javax.swing.JLabel();
+        spnEdadPart = new javax.swing.JSpinner();
+        lblPuntuacionPart = new javax.swing.JLabel();
+        txtNicknamePart = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
         menuBar = new javax.swing.JMenuBar();
         mnuArchivos = new javax.swing.JMenu();
         mnuAspirantes = new javax.swing.JMenuItem();
@@ -136,6 +161,12 @@ public class MDIKiljoy extends javax.swing.JFrame {
         mnuSalir = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(255, 102, 102));
+        setMaximumSize(new java.awt.Dimension(1980, 1080));
+        setPreferredSize(new java.awt.Dimension(1980, 1080));
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        desktopPane.setBackground(new java.awt.Color(255, 102, 102));
 
         jifAspirantes.setClosable(true);
         jifAspirantes.setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
@@ -143,55 +174,62 @@ public class MDIKiljoy extends javax.swing.JFrame {
         jifAspirantes.setMaximizable(true);
         jifAspirantes.setResizable(true);
         jifAspirantes.setTitle("Aspirantes");
+        jifAspirantes.setPreferredSize(new java.awt.Dimension(600, 300));
+        jifAspirantes.setRequestFocusEnabled(false);
         jifAspirantes.setVisible(false);
 
         tblAspirantes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Nombre", "Codigo", "Nickname", "Edad", "Puntuación"
             }
-        ));
-        jScrollPane1.setViewportView(tblAspirantes);
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane3.setViewportView(tblAspirantes);
 
         javax.swing.GroupLayout jifAspirantesLayout = new javax.swing.GroupLayout(jifAspirantes.getContentPane());
         jifAspirantes.getContentPane().setLayout(jifAspirantesLayout);
         jifAspirantesLayout.setHorizontalGroup(
             jifAspirantesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jifAspirantesLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 396, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 588, Short.MAX_VALUE)
         );
         jifAspirantesLayout.setVerticalGroup(
             jifAspirantesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jifAspirantesLayout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 307, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         desktopPane.add(jifAspirantes);
-        jifAspirantes.setBounds(30, 30, 230, 260);
+        jifAspirantes.setBounds(30, 30, 600, 300);
 
+        jifLogin.setBackground(new java.awt.Color(255, 255, 102));
         jifLogin.setIconifiable(true);
         jifLogin.setMaximizable(true);
         jifLogin.setTitle("Ingreso ");
         jifLogin.setVisible(true);
 
-        lblUsuario.setText("*Correo:");
+        lblUsuario.setText("Correo");
 
-        lblContrasenia.setText("*Contrasenia:");
+        lblContrasenia.setText("Contraseña");
 
+        txtCorreo.setBackground(new java.awt.Color(255, 102, 102));
         txtCorreo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtCorreoActionPerformed(evt);
             }
         });
 
+        txtContrasenia.setBackground(new java.awt.Color(255, 102, 102));
+
+        btnIngresar.setBackground(new java.awt.Color(255, 204, 102));
         btnIngresar.setText("Ingresar");
         btnIngresar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -199,43 +237,54 @@ public class MDIKiljoy extends javax.swing.JFrame {
             }
         });
 
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/torneo_kiljoy/vista/JKJK7.png"))); // NOI18N
+        jLabel2.setText("jLabel2");
+
         javax.swing.GroupLayout jifLoginLayout = new javax.swing.GroupLayout(jifLogin.getContentPane());
         jifLogin.getContentPane().setLayout(jifLoginLayout);
         jifLoginLayout.setHorizontalGroup(
             jifLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jifLoginLayout.createSequentialGroup()
-                .addGap(35, 35, 35)
-                .addGroup(jifLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(lblContrasenia)
-                    .addComponent(lblUsuario))
-                .addGap(18, 18, 18)
-                .addGroup(jifLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtCorreo)
-                    .addComponent(txtContrasenia, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE))
-                .addContainerGap(96, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jifLoginLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnIngresar, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(125, 125, 125))
+                .addGroup(jifLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jifLoginLayout.createSequentialGroup()
+                        .addComponent(lblContrasenia)
+                        .addGap(136, 136, 136))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jifLoginLayout.createSequentialGroup()
+                        .addComponent(btnIngresar, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(127, 127, 127))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jifLoginLayout.createSequentialGroup()
+                        .addComponent(lblUsuario)
+                        .addGap(149, 149, 149))))
+            .addGroup(jifLoginLayout.createSequentialGroup()
+                .addGap(103, 103, 103)
+                .addGroup(jifLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jifLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(txtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtContrasenia, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 102, Short.MAX_VALUE))
         );
         jifLoginLayout.setVerticalGroup(
             jifLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jifLoginLayout.createSequentialGroup()
-                .addGap(29, 29, 29)
-                .addGroup(jifLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblUsuario)
-                    .addComponent(txtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jifLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblContrasenia)
-                    .addComponent(txtContrasenia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addContainerGap()
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblUsuario)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lblContrasenia)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtContrasenia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnIngresar)
-                .addContainerGap(75, Short.MAX_VALUE))
+                .addContainerGap(48, Short.MAX_VALUE))
         );
 
         desktopPane.add(jifLogin);
-        jifLogin.setBounds(50, 40, 353, 232);
+        jifLogin.setBounds(240, 50, 350, 320);
 
         jifParticipantes.setClosable(true);
         jifParticipantes.setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
@@ -243,6 +292,7 @@ public class MDIKiljoy extends javax.swing.JFrame {
         jifParticipantes.setMaximizable(true);
         jifParticipantes.setResizable(true);
         jifParticipantes.setTitle("Participantes");
+        jifParticipantes.setPreferredSize(new java.awt.Dimension(600, 300));
         jifParticipantes.setVisible(false);
 
         tblParticipantes.setModel(new javax.swing.table.DefaultTableModel(
@@ -261,13 +311,15 @@ public class MDIKiljoy extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
+        tblParticipantes.getTableHeader().setResizingAllowed(false);
+        tblParticipantes.getTableHeader().setReorderingAllowed(false);
         jScrollPane2.setViewportView(tblParticipantes);
 
         javax.swing.GroupLayout jifParticipantesLayout = new javax.swing.GroupLayout(jifParticipantes.getContentPane());
         jifParticipantes.getContentPane().setLayout(jifParticipantesLayout);
         jifParticipantesLayout.setHorizontalGroup(
             jifParticipantesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 388, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 588, Short.MAX_VALUE)
         );
         jifParticipantesLayout.setVerticalGroup(
             jifParticipantesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -285,19 +337,191 @@ public class MDIKiljoy extends javax.swing.JFrame {
         jifAgregarAspirante.setTitle("Agregar Aspirantes");
         jifAgregarAspirante.setVisible(false);
 
+        txtNombreAsp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNombreAspActionPerformed(evt);
+            }
+        });
+
+        btnRegistrarAsp.setText("Agregar");
+        btnRegistrarAsp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegistrarAspActionPerformed(evt);
+            }
+        });
+
+        lblNombreAsp.setText("Nombre");
+
+        lblNicknameAsp.setText("Nickname");
+
+        txtNicknameAsp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNicknameAspActionPerformed(evt);
+            }
+        });
+
+        txtPuntuacionAsp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPuntuacionAspActionPerformed(evt);
+            }
+        });
+
+        lblPuntuacionAsp.setText("Puntuación");
+
+        lblEdadAsp.setText("Edad");
+
         javax.swing.GroupLayout jifAgregarAspiranteLayout = new javax.swing.GroupLayout(jifAgregarAspirante.getContentPane());
         jifAgregarAspirante.getContentPane().setLayout(jifAgregarAspiranteLayout);
         jifAgregarAspiranteLayout.setHorizontalGroup(
             jifAgregarAspiranteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(jifAgregarAspiranteLayout.createSequentialGroup()
+                .addGroup(jifAgregarAspiranteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jifAgregarAspiranteLayout.createSequentialGroup()
+                        .addGap(129, 129, 129)
+                        .addGroup(jifAgregarAspiranteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jifAgregarAspiranteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(txtPuntuacionAsp, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtNicknameAsp, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtNombreAsp, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jifAgregarAspiranteLayout.createSequentialGroup()
+                                .addGap(30, 30, 30)
+                                .addComponent(lblPuntuacionAsp))
+                            .addGroup(jifAgregarAspiranteLayout.createSequentialGroup()
+                                .addGap(34, 34, 34)
+                                .addComponent(lblNicknameAsp))
+                            .addGroup(jifAgregarAspiranteLayout.createSequentialGroup()
+                                .addGap(37, 37, 37)
+                                .addComponent(lblNombreAsp))
+                            .addGroup(jifAgregarAspiranteLayout.createSequentialGroup()
+                                .addGap(48, 48, 48)
+                                .addComponent(lblEdadAsp))
+                            .addGroup(jifAgregarAspiranteLayout.createSequentialGroup()
+                                .addGap(39, 39, 39)
+                                .addComponent(spnEdadAsp, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(jifAgregarAspiranteLayout.createSequentialGroup()
+                        .addGap(155, 155, 155)
+                        .addComponent(btnRegistrarAsp, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(136, Short.MAX_VALUE))
         );
         jifAgregarAspiranteLayout.setVerticalGroup(
             jifAgregarAspiranteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(jifAgregarAspiranteLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblNombreAsp)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtNombreAsp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(1, 1, 1)
+                .addComponent(lblNicknameAsp)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtNicknameAsp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblPuntuacionAsp)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtPuntuacionAsp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblEdadAsp)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(spnEdadAsp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnRegistrarAsp)
+                .addContainerGap(33, Short.MAX_VALUE))
         );
 
         desktopPane.add(jifAgregarAspirante);
-        jifAgregarAspirante.setBounds(80, 0, 310, 270);
+        jifAgregarAspirante.setBounds(80, 0, 398, 320);
+
+        jifAgregarParticipante.setClosable(true);
+        jifAgregarParticipante.setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
+        jifAgregarParticipante.setIconifiable(true);
+        jifAgregarParticipante.setMaximizable(true);
+        jifAgregarParticipante.setResizable(true);
+        jifAgregarParticipante.setTitle("Agregar Participantes");
+        jifAgregarParticipante.setVisible(false);
+
+        btnAgregarParticipante.setText("Agregar");
+        btnAgregarParticipante.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarParticipanteActionPerformed(evt);
+            }
+        });
+
+        lblNombrePart.setText("Nombre");
+
+        lblNicknamePart.setText("Nickname");
+
+        lblEdadPart.setText("Edad");
+
+        lblPuntuacionPart.setText("Puntuación");
+
+        javax.swing.GroupLayout jifAgregarParticipanteLayout = new javax.swing.GroupLayout(jifAgregarParticipante.getContentPane());
+        jifAgregarParticipante.getContentPane().setLayout(jifAgregarParticipanteLayout);
+        jifAgregarParticipanteLayout.setHorizontalGroup(
+            jifAgregarParticipanteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jifAgregarParticipanteLayout.createSequentialGroup()
+                .addGroup(jifAgregarParticipanteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jifAgregarParticipanteLayout.createSequentialGroup()
+                        .addGap(171, 171, 171)
+                        .addComponent(lblNombrePart))
+                    .addGroup(jifAgregarParticipanteLayout.createSequentialGroup()
+                        .addGap(139, 139, 139)
+                        .addGroup(jifAgregarParticipanteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtPuntuacionPart, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jifAgregarParticipanteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(txtNombrePart, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtNicknamePart, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jifAgregarParticipanteLayout.createSequentialGroup()
+                                    .addComponent(lblNicknamePart)
+                                    .addGap(25, 25, 25)))))
+                    .addGroup(jifAgregarParticipanteLayout.createSequentialGroup()
+                        .addGap(164, 164, 164)
+                        .addComponent(lblPuntuacionPart))
+                    .addGroup(jifAgregarParticipanteLayout.createSequentialGroup()
+                        .addGap(162, 162, 162)
+                        .addComponent(spnEdadPart, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jifAgregarParticipanteLayout.createSequentialGroup()
+                        .addGap(173, 173, 173)
+                        .addComponent(lblEdadPart))
+                    .addGroup(jifAgregarParticipanteLayout.createSequentialGroup()
+                        .addGap(151, 151, 151)
+                        .addComponent(btnAgregarParticipante, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(146, Short.MAX_VALUE))
+        );
+        jifAgregarParticipanteLayout.setVerticalGroup(
+            jifAgregarParticipanteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jifAgregarParticipanteLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblNombrePart)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txtNombrePart, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(1, 1, 1)
+                .addComponent(lblNicknamePart)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtNicknamePart, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblPuntuacionPart)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtPuntuacionPart, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lblEdadPart)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(spnEdadPart, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnAgregarParticipante)
+                .addContainerGap(36, Short.MAX_VALUE))
+        );
+
+        desktopPane.add(jifAgregarParticipante);
+        jifAgregarParticipante.setBounds(110, 10, 398, 320);
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/torneo_kiljoy/vista/Killjoy3-removebg-preview.png"))); // NOI18N
+        desktopPane.add(jLabel1);
+        jLabel1.setBounds(840, 30, 320, 760);
+
+        jLabel3.setIcon(new javax.swing.ImageIcon("C:\\Users\\LAURA MELISSA\\Downloads\\Sin_título_AA-removebg-preview.png")); // NOI18N
+        desktopPane.add(jLabel3);
+        jLabel3.setBounds(210, 420, 440, 220);
+
+        getContentPane().add(desktopPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1980, 1080));
 
         mnuArchivos.setMnemonic('f');
         mnuArchivos.setText("Inicio");
@@ -350,17 +574,6 @@ public class MDIKiljoy extends javax.swing.JFrame {
 
         setJMenuBar(menuBar);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 445, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 336, Short.MAX_VALUE)
-        );
-
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -371,12 +584,27 @@ public class MDIKiljoy extends javax.swing.JFrame {
 
     private void mnuAspirantesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuAspirantesActionPerformed
         // TODO add your handling code here:
+        if (jifAspirantes.isIcon()) {
+            try {
+                jifAspirantes.setIcon(Boolean.FALSE);
+            } catch (PropertyVetoException ex) {
+                System.out.println("No se encontraba minimizado");
+            }
+        }
         jifAspirantes.show();
 
     }//GEN-LAST:event_mnuAspirantesActionPerformed
 
     private void mnuAgregarAspirantesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuAgregarAspirantesActionPerformed
         // TODO add your handling code here:
+        if (jifAgregarAspirante.isIcon()) {
+            try {
+                jifAgregarAspirante.setIcon(Boolean.FALSE);
+            } catch (PropertyVetoException ex) {
+                System.out.println("No se encontraba minimizado");
+            }
+        }
+        jifAgregarAspirante.show();
     }//GEN-LAST:event_mnuAgregarAspirantesActionPerformed
 
     private void txtCorreoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCorreoActionPerformed
@@ -398,12 +626,63 @@ public class MDIKiljoy extends javax.swing.JFrame {
 
     private void mnuParticipantesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuParticipantesActionPerformed
         // TODO add your handling code here:
+        if (jifParticipantes.isIcon()) {
+            try {
+                jifParticipantes.setIcon(Boolean.FALSE);
+            } catch (PropertyVetoException ex) {
+                System.out.println("No se encontraba minimizado");
+            }
+        }
         jifParticipantes.show();
     }//GEN-LAST:event_mnuParticipantesActionPerformed
 
     private void mnuAgregarParticipantesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuAgregarParticipantesActionPerformed
         // TODO add your handling code here:
+        if (jifAgregarParticipante.isIcon()) {
+            try {
+                jifAgregarParticipante.setIcon(Boolean.FALSE);
+            } catch (PropertyVetoException ex) {
+                System.out.println("No se encontraba minimizado");
+            }
+        }
+        jifAgregarParticipante.show();
     }//GEN-LAST:event_mnuAgregarParticipantesActionPerformed
+
+    private void txtNombreAspActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreAspActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNombreAspActionPerformed
+
+    private void btnRegistrarAspActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarAspActionPerformed
+        // TODO add your handling code here:
+        Aspirante aspiranteAdicionar;
+
+        aspiranteAdicionar = 
+                new Aspirante(txtNombreAsp.getText(),txtNicknameAsp.getText(), Byte.parseByte(spnEdadAsp.getValue().toString()), Long.parseLong(txtPuntuacionAsp.getText()));
+        
+        String mensaje = controlLista1.adicionarAspirante(aspiranteAdicionar);
+        llenarAspirantes();
+        JOptionPane.showMessageDialog(rootPane, mensaje);
+    }//GEN-LAST:event_btnRegistrarAspActionPerformed
+
+    private void btnAgregarParticipanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarParticipanteActionPerformed
+        // TODO add your handling code here:
+        Participante participanteAdicionar;
+        participanteAdicionar = 
+                new Participante(txtNombrePart.getText(),txtNicknamePart.getText(), Byte.parseByte(spnEdadPart.getValue().toString()), Long.parseLong(txtPuntuacionPart.getText()));
+        
+  
+        String mensaje = controlLista2.adicionarParticipante(participanteAdicionar);
+        llenarParticipantes();
+        JOptionPane.showMessageDialog(rootPane, mensaje);
+    }//GEN-LAST:event_btnAgregarParticipanteActionPerformed
+
+    private void txtNicknameAspActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNicknameAspActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNicknameAspActionPerformed
+
+    private void txtPuntuacionAspActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPuntuacionAspActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPuntuacionAspActionPerformed
 
     /**
      * @param args the command line arguments
@@ -442,15 +721,29 @@ public class MDIKiljoy extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAgregarParticipante;
     private javax.swing.JButton btnIngresar;
+    private javax.swing.JButton btnRegistrarAsp;
     private javax.swing.JDesktopPane desktopPane;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JInternalFrame jifAgregarAspirante;
+    private javax.swing.JInternalFrame jifAgregarParticipante;
     private javax.swing.JInternalFrame jifAspirantes;
     private javax.swing.JInternalFrame jifLogin;
     private javax.swing.JInternalFrame jifParticipantes;
     private javax.swing.JLabel lblContrasenia;
+    private javax.swing.JLabel lblEdadAsp;
+    private javax.swing.JLabel lblEdadPart;
+    private javax.swing.JLabel lblNicknameAsp;
+    private javax.swing.JLabel lblNicknamePart;
+    private javax.swing.JLabel lblNombreAsp;
+    private javax.swing.JLabel lblNombrePart;
+    private javax.swing.JLabel lblPuntuacionAsp;
+    private javax.swing.JLabel lblPuntuacionPart;
     private javax.swing.JLabel lblUsuario;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenuItem mnuAgregarAspirantes;
@@ -459,10 +752,18 @@ public class MDIKiljoy extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnuAspirantes;
     private javax.swing.JMenuItem mnuParticipantes;
     private javax.swing.JMenuItem mnuSalir;
+    private javax.swing.JSpinner spnEdadAsp;
+    private javax.swing.JSpinner spnEdadPart;
     private javax.swing.JTable tblAspirantes;
     private javax.swing.JTable tblParticipantes;
     private javax.swing.JPasswordField txtContrasenia;
     private javax.swing.JTextField txtCorreo;
+    private javax.swing.JTextField txtNicknameAsp;
+    private javax.swing.JTextField txtNicknamePart;
+    private javax.swing.JTextField txtNombreAsp;
+    private javax.swing.JTextField txtNombrePart;
+    private javax.swing.JTextField txtPuntuacionAsp;
+    private javax.swing.JTextField txtPuntuacionPart;
     // End of variables declaration//GEN-END:variables
 
 }
